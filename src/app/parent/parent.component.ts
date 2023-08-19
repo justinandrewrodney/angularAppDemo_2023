@@ -1,50 +1,41 @@
-
-import { Injectable } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
+
+import { ParentService } from './parent.service';
 import { JsonPlaceholder } from '../json-placeholder';
-// import { ParentService } from './parent.service';
-import { HttpClient } from '@angular/common/http';
+import { ChildComponent } from '../child/child.component';
 
 //Helper for fake data.
 function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max-min+1) + min);
 }
 
-@Injectable({
-  providedIn: 'root',
-})
+
 @Component({
   selector: 'app-parent',
   templateUrl: './parent.component.html',
   styleUrls: ['./parent.component.css']
 })
 export class ParentComponent implements OnInit{
-  jsonData: JsonPlaceholder | undefined;
 
-  constructor(private http: HttpClient) { }
-  ngOnInit() {
-    this.showConfig();
-  }
+  constructor(
+    private service: ParentService,
+    private child: ChildComponent
+  ) { }
+  ngOnInit() {  }
 
   jsonPlaceholderUrl = 'https://jsonplaceholder.typicode.com/todos/';
   
-  showConfig() {
-
+  getAndStoreJsonData() {
+    // Randomize which placeholder we are pulling at each call.
     let jsonPlaceholderUrl = this.jsonPlaceholderUrl+getRandomInt(1,200).toString();
-    return this.http.get<JsonPlaceholder>(jsonPlaceholderUrl)
-      .subscribe(
-        (resp) => {
-          console.log('Recieved JsonPlaceholer')
-          console.log(resp)
-        },
-        (error) => {
-          console.error('Failed to get JsonPlaceholder with error: ')
-          alert(error)
-        },
-        () => {
-          console.log('Request completed.')
-        }
-      );
 
+    this.service.getJson(jsonPlaceholderUrl)
+      .subscribe(resp => {
+
+        let jsonData: JsonPlaceholder = { ...resp.body! }
+        console.log(jsonData)
+        this.child.logJsonPlaceholder(jsonData)
+      }
+      );
   }
 }

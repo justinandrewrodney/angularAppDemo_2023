@@ -1,1 +1,15 @@
-<p>child works!</p>
+<div *ngIf="jsonPlaceholderService.placeholders.length">
+
+<h2>JsonPlaceholders</h2>
+<button type="button"
+        class="clear"
+        (click)="jsonPlaceholderService.clear()">Clear Placeholders</button>
+<ul class="placeholders">
+    <div *ngFor="let placeholder of jsonPlaceholderService.placeholders">
+        <label>{{placeholder.userId}}</label>
+        <label>{{placeholder.id}}</label>
+        <label>{{placeholder.title}}</label>
+        <label>{{placeholder.completed}}</label>
+    </div>
+  </ul>
+</div>
