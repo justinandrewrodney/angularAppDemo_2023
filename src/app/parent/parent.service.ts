@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Observable, pipe } from 'rxjs';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators'
+
 
 import { TopGainers } from '../topGainers';
 import * as config from '../../assets/config.json'
@@ -29,7 +31,11 @@ export class ParentService {
                                                 change_amount: tg.change_amount,
                                                 change_percentage: tg.change_percentage,
                                                 volume: tg.volume
-                                            }
+                                            },
+                        catchError((error: any) => {
+                            console.log("Error getting daily.", error)
+                            throw new Error(error)
+                        })
                 )
             ))
     }

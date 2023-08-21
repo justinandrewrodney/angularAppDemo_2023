@@ -47,7 +47,11 @@ export class ParentComponent implements OnInit{
         this.selectedClose  = dailyRecent.close
         this.selectedDay    = mostRecentDayKey
 
-      })
+      },
+      (err: any) => {
+        console.log("getDailyData", err)
+      }
+      )
   }
 
 }
