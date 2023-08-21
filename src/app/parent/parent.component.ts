@@ -32,21 +32,27 @@ export class ParentComponent implements OnInit{
   getDailyData(ticker: string){
     this.service.getDaily(ticker)
       .subscribe((data: any) => {
-        // This solution assumes the first element is going to be 
-        // the most recent date. This is fragile, but quick solution.
-        let mostRecentDayKey  = Object.keys(data)[0];
-        let mostRecentDayData = data[mostRecentDayKey];
+        try {
+          // This solution assumes the first element is going to be
+          // the most recent date. This is fragile, but quick solution.
+          let mostRecentDayKey  = Object.keys(data)[0];
+          let mostRecentDayData = data[mostRecentDayKey];
 
-        let dailyRecent: Daily = {
-          ticker: ticker,
-          close:  mostRecentDayData["4. close"],
-          volume: mostRecentDayData["5. volume"]
-        };
-        // This gets sent to the child components input variables.
-        this.selectedTicker = dailyRecent.ticker
-        this.selectedClose  = dailyRecent.close
-        this.selectedDay    = mostRecentDayKey
-
+          let dailyRecent: Daily = {
+            ticker: ticker,
+            close:  mostRecentDayData["4. close"],
+            volume: mostRecentDayData["5. volume"]
+          };
+          // This gets sent to the child components input variables.
+          this.selectedTicker = dailyRecent.ticker
+          this.selectedClose  = dailyRecent.close
+          this.selectedDay    = mostRecentDayKey
+        }catch(error) {
+          this.selectedTicker = `Cannot display ticker ${ticker}`
+          this.selectedClose  = ''
+          this.selectedDay    = ''
+          console.log("Error parsing daily.", error)
+        }
       },
       (err: any) => {
         console.log("getDailyData", err)
