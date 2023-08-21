@@ -1,9 +1,8 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Output, Input, EventEmitter } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 
-import { JsonPlaceholder } from '../json-placeholder';
-import { JsonPlaceholderService } from '../json-placeholder.service';
-
+import { TickerService } from '../tickers.service';
+import { TopGainers } from '../topGainers';
 
 @Injectable({
   providedIn: 'root',
@@ -14,14 +13,24 @@ import { JsonPlaceholderService } from '../json-placeholder.service';
   styleUrls: ['./child.component.css']
 })
 export class ChildComponent implements OnInit {
-  
+  @Input() ticker: string = '';
+  @Input() close: string  = '';
+
   constructor(
-    protected jsonPlaceholderService: JsonPlaceholderService
-  ) { }
+    protected tickerService: TickerService
+    ) { }
 
   ngOnInit() {}
 
-  logJsonPlaceholder(jsonPlaceholder: JsonPlaceholder){
-    this.jsonPlaceholderService.add(jsonPlaceholder);
+  // selected Ticker flows from child to parent
+  @Output() selectedTickerEvent = new EventEmitter<string>();
+  selectTicker(value: string){
+    this.selectedTickerEvent.emit(value)
+  }
+
+  showTickers(ticker: TopGainers){
+    console.log('Adding ticker: ')
+    console.log(ticker)
+    this.tickerService.add(ticker);
   }
 }

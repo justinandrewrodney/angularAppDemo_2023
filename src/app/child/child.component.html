@@ -1,15 +1,17 @@
-<div *ngIf="jsonPlaceholderService.placeholders.length">
+<div>
+    <h2>Selected Ticker</h2>
+    <label>{{ticker}}</label>
+    <label>{{close}}</label>
+</div>
+<div *ngIf="tickerService.tickers.length">
 
-<h2>JsonPlaceholders</h2>
-<button type="button"
-        class="clear"
-        (click)="jsonPlaceholderService.clear()">Clear Placeholders</button>
-<ul class="placeholders">
-    <div *ngFor="let placeholder of jsonPlaceholderService.placeholders">
-        <label>{{placeholder.userId}}</label>
-        <label>{{placeholder.id}}</label>
-        <label>{{placeholder.title}}</label>
-        <label>{{placeholder.completed}}</label>
+<h2>Tickers</h2>
+<ul class="Tickers">
+    <div *ngFor="let ticker of tickerService.tickers">
+        <label>{{ticker.ticker}}</label>
+        <button type="button" class="add-button" (click)="selectTicker(ticker.ticker)">
+            {{ticker.ticker}}
+        </button>
     </div>
   </ul>
 </div>
