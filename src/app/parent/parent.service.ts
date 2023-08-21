@@ -4,13 +4,17 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 
 import { TopGainers } from '../topGainers';
+import * as config from '../../assets/config.json'
+
 
 @Injectable({
 providedIn: 'root',
 })
 export class ParentService {
     baseUrl: string = 'https://www.alphavantage.co/'
-    apiKey: string  = ''
+    private conf = config
+    apiKey: string  = this.conf['API_KEY']
+
   constructor(private http: HttpClient) { }
 
     getTopGainers(){
