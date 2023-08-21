@@ -34,6 +34,7 @@ export class ParentService {
             ))
     }
 
+    // TODO: Need to add a way to query for tickers with special characters('+')
     getDaily(ticker: string): any{
         let functionUrl = `query?function=TIME_SERIES_DAILY&symbol=${ticker}`
         let url: string = `${this.baseUrl}${functionUrl}&apikey=${this.apiKey}`;

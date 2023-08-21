@@ -1,0 +1,32 @@
+.select-button {
+    color: white;
+    background-color: #42545C;
+    width: 150px;
+    padding: .5rem 1.5rem;
+    font-size: 1rem;
+    margin-bottom: 2rem;
+}
+
+.select-button:hover {
+    color: #42545C;
+    background-color: white;
+}
+
+.Tickers {
+    overflow-y:auto;
+    max-height:100vh;
+    float:left;
+    scrollbar-color: black black;
+}
+.Center {
+    width:100%px;
+    height:100%px;
+    position: fixed;
+    left: 50%;
+    margin-top: -100px;
+    margin-left: -100px;
+}
+
+.day {
+
+}

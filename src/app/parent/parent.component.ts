@@ -14,6 +14,8 @@ import { Daily } from '../daily';
 export class ParentComponent implements OnInit{
   selectedTicker: string = ''
   selectedClose: string  = ''
+  selectedDay: string  = ''
+
   constructor(
     private service: ParentService,
     private child: ChildComponent,
@@ -24,15 +26,14 @@ export class ParentComponent implements OnInit{
     this.service.getTopGainers()
       .subscribe((data: TopGainers[]) => {
         data.forEach(((ticker) => this.child.showTickers(ticker)))
-
-          console.log({ data })
-
     })
   }
 
   getDailyData(ticker: string){
     this.service.getDaily(ticker)
       .subscribe((data: any) => {
+        // This solution assumes the first element is going to be 
+        // the most recent date. This is fragile, but quick solution.
         let mostRecentDayKey  = Object.keys(data)[0];
         let mostRecentDayData = data[mostRecentDayKey];
 
@@ -41,11 +42,11 @@ export class ParentComponent implements OnInit{
           close:  mostRecentDayData["4. close"],
           volume: mostRecentDayData["5. volume"]
         };
-        console.log( dailyRecent );
-
         // This gets sent to the child components input variables.
         this.selectedTicker = dailyRecent.ticker
         this.selectedClose  = dailyRecent.close
+        this.selectedDay    = mostRecentDayKey
+
       })
   }
 

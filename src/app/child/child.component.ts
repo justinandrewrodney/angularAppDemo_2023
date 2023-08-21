@@ -15,6 +15,7 @@ import { TopGainers } from '../topGainers';
 export class ChildComponent implements OnInit {
   @Input() ticker: string = '';
   @Input() close: string  = '';
+  @Input() day: string  = '';
 
   constructor(
     protected tickerService: TickerService
@@ -29,8 +30,6 @@ export class ChildComponent implements OnInit {
   }
 
   showTickers(ticker: TopGainers){
-    console.log('Adding ticker: ')
-    console.log(ticker)
     this.tickerService.add(ticker);
   }
 }

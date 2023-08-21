@@ -1,17 +1,23 @@
-<div>
-    <h2>Selected Ticker</h2>
-    <label>{{ticker}}</label>
-    <label>{{close}}</label>
-</div>
 <div *ngIf="tickerService.tickers.length">
+    <h2>Tickers</h2>
+    <ul class="Tickers">
+        <div *ngFor="let ticker of tickerService.tickers">
+            <button type="button" class="select-button" (click)="selectTicker(ticker.ticker)">
+                {{ticker.ticker}}
+            </button>
+        </div>
+    </ul>
+</div>
 
-<h2>Tickers</h2>
-<ul class="Tickers">
-    <div *ngFor="let ticker of tickerService.tickers">
-        <label>{{ticker.ticker}}</label>
-        <button type="button" class="add-button" (click)="selectTicker(ticker.ticker)">
-            {{ticker.ticker}}
-        </button>
+<div class="Center">
+    <h2>Selected Ticker</h2>
+    <div *ngIf="day!=''">
+        <label class="day">Date: {{day}}</label>
     </div>
-  </ul>
+    <div>
+        <label style="color:rgb(0, 221, 0)">{{ticker}}</label>
+    </div>
+    <div>
+        <label style="color:rgb(0, 221, 0)">{{close}}</label>
+    </div>
 </div>

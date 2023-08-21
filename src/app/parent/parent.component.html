@@ -1,5 +1,8 @@
-<h2>JsonPlaceholder list</h2>
-
 <div>
-  <app-child (selectedTickerEvent)="getDailyData($event)" [ticker]="selectedTicker" [close]="selectedClose" ></app-child>
+  <app-child 
+    (selectedTickerEvent)="getDailyData($event)"
+    [ticker]="selectedTicker" 
+    [close]="selectedClose" 
+    [day]="selectedDay">
+  </app-child>
 </div>
