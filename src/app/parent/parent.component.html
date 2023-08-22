@@ -1,6 +1,8 @@
 <div>
   <app-child 
     (selectedTickerEvent)="getDailyDataForTicker($event)"
-    [dailyDisplay]="selectedTickerData">
+    [dailyDisplay]="selectedTickerData"
+    [isDailyDisplayValid]="displayDailyData"
+    [errorMessage]="errorMessage">
   </app-child>
 </div>

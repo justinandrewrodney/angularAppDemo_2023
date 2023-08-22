@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { catchError } from 'rxjs/operators'
+import { of } from 'rxjs'
 
 import { ParentService } from './parent.service';
 import { ChildComponent } from '../child/child.component';
@@ -15,6 +15,9 @@ import { DisplayTicker } from '../displayTicker';
 })
 export class ParentComponent implements OnInit{
   selectedTickerData: DisplayTicker = {close: '', date: '', ticker: ''}
+  displayDailyData: boolean = true
+  errorMessage: string = ''
+
 
   constructor(
     private service: ParentService,
@@ -31,17 +34,21 @@ export class ParentComponent implements OnInit{
 
   getDailyDataForTicker(ticker: string){
     this.service.getMostRecentDailyData(ticker)
-      .subscribe(
-          (data: DisplayTicker) => {
+      .subscribe({
+          next: (data: DisplayTicker) => {
             this.selectedTickerData = data
+            this.displayDailyData=true
+            this.errorMessage=''
           },
-          (error: any) => {
+          error: (error: any) => {
             console.log(`Error getting daily data for ticker: ${ticker}`, error)
             this.selectedTickerData.close = ''
             this.selectedTickerData.date = ''
             this.selectedTickerData.ticker = ''
+            this.displayDailyData=false
+            this.errorMessage=`Cannot display daily closing price for ticker: ${ticker}`
           },
-      )
+        })
   }
 
 }

@@ -15,6 +15,8 @@ import { DisplayTicker } from '../displayTicker';
 })
 export class ChildComponent implements OnInit {
   @Input() dailyDisplay: DisplayTicker = {date: '', ticker: '', close: ''};
+  @Input() isDailyDisplayValid: boolean = true;
+  @Input() errorMessage: string = '';
 
   constructor(
     protected tickerService: TickerService

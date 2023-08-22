@@ -11,14 +11,19 @@
 
 <div class="Center">
     <h2>Selected Ticker</h2>
-    <div *ngIf="dailyDisplay.date!=''">
-        <label class="day">Date: {{dailyDisplay.date}}</label>
+    <div *ngIf="isDailyDisplayValid; else invalidDailyDisplay">
+        <div *ngIf="dailyDisplay.date!=''">
+            <label class="day">Date: {{dailyDisplay.date}}</label>
+        </div>
+        <div *ngIf="dailyDisplay.ticker!=''">
+            <label style="color:rgb(0, 221, 0)">{{dailyDisplay.ticker}}</label>
+        </div>
+        <div *ngIf="dailyDisplay.close!=''">
+            <label>Closing price: </label>
+            <label style="color:rgb(0, 221, 0)">{{dailyDisplay.close}}</label>
+        </div>
     </div>
-    <div *ngIf="dailyDisplay.ticker!=''">
-        <label style="color:rgb(0, 221, 0)">{{dailyDisplay.ticker}}</label>
-    </div>
-    <div *ngIf="dailyDisplay.close!=''">
-        <label>Closing price: </label>
-        <label style="color:rgb(0, 221, 0)">{{dailyDisplay.close}}</label>
-    </div>
+    <ng-template #invalidDailyDisplay>
+        {{errorMessage}}
+    </ng-template>
 </div>
