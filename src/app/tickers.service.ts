@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { TopGainers } from './topGainers';
+import { TopGainer } from './topGainer';
 
 @Injectable({ providedIn: 'root' })
 export class TickerService {
-  tickers: TopGainers[] = [];
+  tickers: TopGainer[] = [];
 
-  add(ticker: TopGainers) {
+  add(ticker: TopGainer) {
     this.tickers.push(ticker);
     console.log("")
   }

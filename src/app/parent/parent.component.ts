@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { catchError } from 'rxjs/operators'
 
 import { ParentService } from './parent.service';
 import { ChildComponent } from '../child/child.component';
 
-import { TopGainers } from '../topGainers';
-import { Daily } from '../daily';
+import { TopGainer } from '../topGainer';
+import { DisplayTicker } from '../displayTicker';
+
 
 @Component({
   selector: 'app-parent',
@@ -12,9 +14,7 @@ import { Daily } from '../daily';
   styleUrls: ['./parent.component.css']
 })
 export class ParentComponent implements OnInit{
-  selectedTicker: string = ''
-  selectedClose: string  = ''
-  selectedDay: string  = ''
+  selectedTickerData: DisplayTicker = {close: '', date: '', ticker: ''}
 
   constructor(
     private service: ParentService,
@@ -24,39 +24,23 @@ export class ParentComponent implements OnInit{
 
   getTickers() {
     this.service.getTopGainers()
-      .subscribe((data: TopGainers[]) => {
-        data.forEach(((ticker) => this.child.showTickers(ticker)))
+      .subscribe((data: TopGainer[]) => {
+        data.forEach(((ticker) => this.child.storeTickers(ticker)))
     })
   }
 
-  getDailyData(ticker: string){
-    this.service.getDaily(ticker)
-      .subscribe((data: any) => {
-        try {
-          // This solution assumes the first element is going to be
-          // the most recent date. This is fragile, but quick solution.
-          let mostRecentDayKey  = Object.keys(data)[0];
-          let mostRecentDayData = data[mostRecentDayKey];
-
-          let dailyRecent: Daily = {
-            ticker: ticker,
-            close:  mostRecentDayData["4. close"],
-            volume: mostRecentDayData["5. volume"]
-          };
-          // This gets sent to the child components input variables.
-          this.selectedTicker = dailyRecent.ticker
-          this.selectedClose  = dailyRecent.close
-          this.selectedDay    = mostRecentDayKey
-        }catch(error) {
-          this.selectedTicker = `Cannot display ticker ${ticker}`
-          this.selectedClose  = ''
-          this.selectedDay    = ''
-          console.log("Error parsing daily.", error)
-        }
-      },
-      (err: any) => {
-        console.log("getDailyData", err)
-      }
+  getDailyDataForTicker(ticker: string){
+    this.service.getMostRecentDailyData(ticker)
+      .subscribe(
+          (data: DisplayTicker) => {
+            this.selectedTickerData = data
+          },
+          (error: any) => {
+            console.log(`Error getting daily data for ticker: ${ticker}`, error)
+            this.selectedTickerData.close = ''
+            this.selectedTickerData.date = ''
+            this.selectedTickerData.ticker = ''
+          },
       )
   }
 

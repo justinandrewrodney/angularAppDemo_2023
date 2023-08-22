@@ -2,7 +2,8 @@ import { Injectable, Output, Input, EventEmitter } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 
 import { TickerService } from '../tickers.service';
-import { TopGainers } from '../topGainers';
+import { TopGainer } from '../topGainer';
+import { DisplayTicker } from '../displayTicker';
 
 @Injectable({
   providedIn: 'root',
@@ -13,9 +14,7 @@ import { TopGainers } from '../topGainers';
   styleUrls: ['./child.component.css']
 })
 export class ChildComponent implements OnInit {
-  @Input() ticker: string = '';
-  @Input() close: string  = '';
-  @Input() day: string  = '';
+  @Input() dailyDisplay: DisplayTicker = {date: '', ticker: '', close: ''};
 
   constructor(
     protected tickerService: TickerService
@@ -29,7 +28,7 @@ export class ChildComponent implements OnInit {
     this.selectedTickerEvent.emit(value)
   }
 
-  showTickers(ticker: TopGainers){
+  storeTickers(ticker: TopGainer){
     this.tickerService.add(ticker);
   }
 }

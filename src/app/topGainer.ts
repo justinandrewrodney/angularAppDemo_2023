@@ -1,4 +1,4 @@
-export interface TopGainers {
+export interface TopGainer {
     ticker: string,
     price: string,
     change_amount: string,
