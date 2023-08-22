@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { of } from 'rxjs'
 
 import { ParentService } from './parent.service';
 import { ChildComponent } from '../child/child.component';
@@ -13,6 +12,10 @@ import { DisplayTicker } from '../displayTicker';
   templateUrl: './parent.component.html',
   styleUrls: ['./parent.component.css']
 })
+/*! \class ParentComponent
+    \brief Uses the ParentService to retrieve data using a REST API,
+      passes the data to the ChildComponent through function calls and event bindings.
+*/
 export class ParentComponent implements OnInit{
   selectedTickerData: DisplayTicker = {close: '', date: '', ticker: ''}
   displayDailyData: boolean = true
@@ -25,6 +28,9 @@ export class ParentComponent implements OnInit{
   ) { }
   ngOnInit() { this.getTickers() }
 
+  /*! \fn getTickers()
+      \brief Retrieves an array of 20 top gainers, and passes it to the Child.
+  */
   getTickers() {
     this.service.getTopGainers()
       .subscribe((data: TopGainer[]) => {
@@ -32,6 +38,10 @@ export class ParentComponent implements OnInit{
     })
   }
 
+  /*! \fn getDailyDataForTicker(ticker: string)
+    \brief Given a ticker, uses the parent service to get the closing price and date last updated
+      to be sent to the child component via Event bindings.
+  */
   getDailyDataForTicker(ticker: string){
     this.service.getMostRecentDailyData(ticker)
       .subscribe({

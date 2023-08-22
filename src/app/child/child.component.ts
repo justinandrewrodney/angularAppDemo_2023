@@ -13,6 +13,11 @@ import { DisplayTicker } from '../displayTicker';
   templateUrl: './child.component.html',
   styleUrls: ['./child.component.css']
 })
+
+/*! \class ChildComponent
+    \brief The child component recieves data from the Parent,
+      renders the data to the user, and also recieves user input(button clicks.).
+*/
 export class ChildComponent implements OnInit {
   @Input() dailyDisplay: DisplayTicker = {date: '', ticker: '', close: ''};
   @Input() isDailyDisplayValid: boolean = true;
@@ -24,12 +29,21 @@ export class ChildComponent implements OnInit {
 
   ngOnInit() {}
 
-  // selected Ticker flows from child to parent
+
+  /*! \fn selectTicker(value: string)
+    \brief Sends the selected ticker to the parent.
+
+    This is called whenever the user selects a ticker, so that
+    the Parent can retrieve the information about this ticker.
+  */
   @Output() selectedTickerEvent = new EventEmitter<string>();
   selectTicker(value: string){
     this.selectedTickerEvent.emit(value)
   }
 
+  /*! \fn storeTickers(ticker: TopGainer)
+    \brief Stores the ticker in the tickerService.
+  */
   storeTickers(ticker: TopGainer){
     this.tickerService.add(ticker);
   }
